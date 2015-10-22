@@ -1,0 +1,22 @@
+{
+  "name": "01-bindings",
+  "homepage": "https://github.com/monodrom/learn-knockout",
+  "authors": [
+    "Jesper Andersson <jsprA86@gmail.com>"
+  ],
+  "description": "Knockout bindings",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "knockout": "~3.3.0"
+  }
+}

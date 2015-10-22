@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Bindings | Learn Knockout</title>
+		<style>
+			.container {
+				border: 2px solid red;
+				text-align: center;
+				padding-bottom: 10px;
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1>Knockout bindings</h1>
+		<p>This document shows the different possible bindings avaliable in the Knockout.js library.</p>
+
+		<h3>text | value | textInput</h3>
+		<ul>
+			<li><strong>text</strong> - displays the current value of the variable</li>
+			<li><strong>value</strong> - watches and change a value (eg by using an input box) <em>after</em> input has been de-focused</li>
+			<li><strong>textInput</strong> - watches and change a value <em>directly</em> on editing</li>
+		</ul>
+		<div class="container">
+			<h4>The value and the text bindings</h4>
+			<input type="text" data-bind="value: username" placeholder="enter your name">
+			<br>
+			<span>Hello <span data-bind="text: username"></span></span>
+		</div>
+		<div class="container">
+			<h4>The textInput and the text bindings</h4>
+			<input type="text" data-bind="textInput: username" placeholder="enter your name">
+			<br>
+			<span>Hello <span data-bind="text: username"></span></span>
+		</div>
+
+		<script src="bower_components/knockout/dist/knockout.js" ></script>
+		<script type="text/javascript">
+
+			//a new variable is declared and assigned a funtion
+			//this function is the knockout view-model
+			var ViewModel = function(){
+
+				//*this* is assigned to *self*
+				//not necessary here but good practise to avoid binding problems in javascript
+				//read: http://alistapart.com/article/getoutbindingsituations
+				var self = this;
+
+				//this variable is assigned the knockout *function* observable()
+				//the observable function make the variable avaliable for use with the data-bind attribute
+				self.username = ko.observable();
+
+				//you can give a value directly in the function assignment
+				//eg. self.username = ko.observable("write your name");
+				//since the variable 'username' is assigned a function you change its value by calling its main method with the value to change to taken as a parameter
+				self.username("[write your name]");
+			};
+
+			//finally you apply the bindings by calling the Knockout method 'applyBindings'
+			//give the view-model as a parameter
+			ko.applyBindings(new ViewModel());
+
+		</script>
+	</body>
+</html>
