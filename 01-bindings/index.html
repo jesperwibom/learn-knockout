@@ -4,6 +4,11 @@
 		<meta charset="utf-8">
 		<title>Bindings | Learn Knockout</title>
 		<style>
+			section {
+				border: 1px solid gray;
+				padding: 10px;
+				margin-bottom: 20px;
+			}
 			.container {
 				border: 2px solid red;
 				text-align: center;
@@ -17,31 +22,48 @@
 		<h1>Knockout bindings</h1>
 		<p>This document shows the different possible bindings avaliable in the Knockout.js library.</p>
 
-		<h3>text | value | textInput</h3>
-		<ul>
-			<li><strong>text</strong> - displays the current value of the variable</li>
-			<li><strong>value</strong> - watches and change a value (eg by using an input box) <em>after</em> input has been de-focused</li>
-			<li><strong>textInput</strong> - watches and change a value <em>directly</em> on editing</li>
-		</ul>
-		<div class="container">
-			<h4>The value and the text bindings</h4>
-			<input type="text" data-bind="value: username" placeholder="enter your name">
-			<br>
-			<span>Hello <span data-bind="text: username"></span></span>
-		</div>
-		<div class="container">
-			<h4>The textInput and the text bindings</h4>
-			<input type="text" data-bind="textInput: username" placeholder="enter your name">
-			<br>
-			<span>Hello <span data-bind="text: username"></span></span>
-		</div>
+		<section id="textValueInput">
+			<h3>text | value | textInput</h3>
+			<ul>
+				<li><strong>text</strong> - displays the current value of the variable</li>
+				<li><strong>value</strong> - watches and change a value (eg by using an input box) <em>after</em> input has been de-focused</li>
+				<li><strong>textInput</strong> - watches and change a value <em>directly</em> on editing</li>
+			</ul>
+			<div class="container">
+				<h4>The value and the text bindings</h4>
+				<input type="text" data-bind="value: username" placeholder="enter your name">
+				<br>
+				<span>Hello <span data-bind="text: username"></span></span>
+			</div>
+			<div class="container">
+				<h4>The textInput and the text bindings</h4>
+				<input type="text" data-bind="textInput: username" placeholder="enter your name">
+				<br>
+				<span>Hello <span data-bind="text: username"></span></span>
+			</div>
+		</section>
+
+		<section id="clickVisibleEnable">
+			<h3>click | visible | enable</h3>
+			<ul>
+				<li><strong>click</strong> - </li>
+				<li><strong>visible</strong> - </li>
+				<li><strong>enable</strong> - </li>
+			</ul>
+			<div class="container">
+				<input data-bind="value: tempData">
+				<button data-bind="click: ">w. method call</button>
+				<button data-bind="click: ">no method call</button>
+				<span data-bind="text: savedData"></span>
+			</div>
+		</section>
 
 		<script src="bower_components/knockout/dist/knockout.js" ></script>
 		<script type="text/javascript">
 
 			//a new variable is declared and assigned a funtion
 			//this function is the knockout view-model
-			var ViewModel = function(){
+			var ViewModelTextValueTextInput = function(){
 
 				//*this* is assigned to *self*
 				//not necessary here but good practise to avoid binding problems in javascript
@@ -60,7 +82,25 @@
 
 			//finally you apply the bindings by calling the Knockout method 'applyBindings'
 			//give the view-model as a parameter
-			ko.applyBindings(new ViewModel());
+			//an optional second parameter is the specific element the binding applies to
+			//since this example have two view-models is necessary to assign them to specific *separate* elements, else you get an error
+			ko.applyBindings(new ViewModelTextValueTextInput(),document.getElementById('textValueInput'));
+
+			//////
+
+			//you can also create a view-model by declaring a javascript object
+			var viewModelClickVisibleEnable = {
+				self: this,
+				tempData: ko.observable(42),
+				savedData: ko.observable(""),
+				foundData: ko.observable(false),
+			}
+
+
+			//the applyBindings method can take any js object, new and literals
+			//again, the second optional parameter is necessary in this example
+			//if we would to exclude it from any of the view-models we would effectively try to apply several view-models to a single element (because of nested html elements) and Knockout do *not* allow that
+			ko.applyBindings(viewModelClickVisibleEnable,document.getElementById('clickVisibleEnable'));
 
 		</script>
 	</body>
