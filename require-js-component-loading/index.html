@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Require.js component loading</title>
+
+		<!--
+			this example takes two dependencies, require and knockout
+			but we are going to load knockout with require
+
+			below we first link a configuration of require
+			this tells us where all our dependecies are
+		-->
+		<script src="app/boot/require.config.js"></script>
+
+		<!--
+			After the config is loaded we run require with a require module file added in data-main
+			This module is where we define our knockout components
+			NOTE: Do not load require in your dependecy managare (in this case bower) but load requirejs
+		-->
+		<script data-main="app/boot/startup.js" src="bower_components/requirejs/require.js"></script>
+
+	</head>
+	<body>
+		<h1>My component</h1>
+		<mycomponent params="name: 'Jesper'"></mycomponent>
+		<mycomponent params="name: 'Bert'"></mycomponent>
+	</body>
+</html>

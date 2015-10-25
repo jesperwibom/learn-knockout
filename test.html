@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="require-js-component-loading/bower_components/knockout/dist/knockout.js">
+		</script>
+	</head>
+	<body>
+		<h2>Hello <span data-bind="text: username"></span>!</h2>
+		<p>You are now using require.js modules to load your knockout components!</p>
+		<input placeholder="change username" data-bind="value: username"></input>
+		<script>
+
+		function MyComponent(params){
+			var self = this;
+			self.username = ko.observable();
+			self.username(params.name);
+			return self;
+		}
+
+		ko.applyBindings(new MyComponent({name: "JesperBert"}));
+
+		</script>
+	</body>
+</html>
