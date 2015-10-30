@@ -1,0 +1,24 @@
+{
+  "name": "firebase-integration",
+  "homepage": "https://github.com/monodrom/learn-knockout",
+  "authors": [
+    "Jesper Andersson <jsprA86@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "knockout": "~3.3.0",
+    "firebase": "~2.3.1",
+    "bootstrap": "~3.3.5"
+  }
+}

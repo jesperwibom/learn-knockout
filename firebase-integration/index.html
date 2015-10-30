@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Simple Firebase integration</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" charset="utf-8">
+	</head>
+	<body>
+		<div class="container">
+			<h2 class="text-center">Firebase integration</h2>
+			<div class="jumbotron">
+				<span data-bind="text: status"></span>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" data-bind="value: status" placeholder="username">
+			</div>
+		</div>
+		<script src="bower_components/jquery/dist/jquery.js" ></script>
+		<script src="bower_components/knockout/dist/knockout.js" ></script>
+		<script src="bower_components/firebase/firebase.js" ></script>
+		<script type="text/javascript">
+
+			var ModelView = function(){
+
+				var self = this;
+				var userId = "id01";
+
+				var rootRef = new Firebase("https://mah-space-mono.firebaseio.com");
+				var usersRef = rootRef.child("users");
+				var userRef = usersRef.child(userId);
+
+
+				self.status = ko.observable();
+
+				userRef.child("active").on("value", function(snapshot){
+					self.status(snapshot.val());
+					console.log(snapshot.val());
+				}, function (errorObject) {
+					console.log("The read failed: " + errorObject.code);
+				});
+
+			}
+
+			ko.applyBindings(new ModelView);
+		</script>
+	</body>
+</html>

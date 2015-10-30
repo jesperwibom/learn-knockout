@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- inspired by http://nigelkelly.github.io/simple-signup-and-signin-with-firebase-and-knockout.html modified -->
+		<meta charset="utf-8">
+		<title>Firebase login</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" charset="utf-8">
+	</head>
+	<body>
+		<div class="container">
+
+			<div class="well" id="signup" data-bind="visible: signupVM.isVisible">
+				<div class="span">
+					<h1>Firebase/Knockout signup/login</h1>
+					<h2>Sign up</h2>
+					<p>
+						<input type="text" class="input" placeholder="email" data-bind="value: signupVM.userName">
+						<input type="password" class="input" placeholder="password" data-bind="value: signupVM.userPassword">
+					</p>
+					<p>
+						<a class="btn btn-primary btn-large" data-bind="click: signupVM.userSignup">
+							Sign Up
+						</a>
+					</p>
+					<p>
+						or if you've registered ...
+					</p>
+					<p>
+						<a class="btn btn-default btn-small" data-bind="click: loginVM.makeVisible">
+							Log In
+						</a>
+					</p>
+				</div>
+			</div>
+
+			<div class="well" id="login" data-bind="visible: loginVM.isVisible">
+				<div class="span">
+					<h1>Firebase/Knockout signup/login</h1>
+					<h2>Login</h2>
+					<p>
+						<input type="text" placeholder="email" data-bind="value: loginVM.userName">
+						<input type="password" placeholder="password" data-bind="value: loginVM.userPassword">
+					</p>
+					<p>
+						<a class="btn btn-primary btn-large" data-bind="click: loginVM.userLogin">
+							Log In
+						</a>
+					</p>
+				</div>
+			</div>
+
+		</div>
+
+
+
+		<script src="bower_components/jquery/dist/jquery.js" ></script>
+		<script src="bower_components/knockout/dist/knockout.js" ></script>
+		<script src="bower_components/firebase/firebase.js" ></script>
+		<script type="text/javascript">
+			var SignUpVM = function(makeViewVisible){
+
+				var ref = new Firebase("https://mah-space-mono.firebaseio.com");
+				var self = this;
+
+				self.userName = ko.observable();
+				self.userPassword = ko.observable();
+				self.isVisible = ko.observable(makeViewVisible);
+
+				self.userSignup = function(){
+					console.log("signing up "+self.userName()+ "...");
+					ref.createUser({
+		  			email    : self.userName(),
+		  			password : self.userPassword()
+					}, function(error, userData) {
+		  			if (error) {
+							switch (error.code) {
+					      case "INVALID_EMAIL":
+					        console.log("The specified user account email is invalid.");
+					        break;
+					      case "EMAIL_TAKEN":
+					        console.log("The specified user account email is already taken");
+					        break;
+					      default:
+					        console.log("Error signing up user:", error);
+					    }
+					  } else {
+					    console.log("Successfully created user account with uid:", userData.uid);
+					  }
+					});
+				};
+			};
+		</script>
+
+		<script type="text/javascript">
+			var LoginVM = function (makeViewVisible){
+				var ref = new Firebase("https://mah-space-mono.firebaseio.com");
+				var self = this;
+
+				self.userName = ko.observable();
+				self.userPassword = ko.observable();
+				self.isVisible = ko.observable(makeViewVisible);
+
+				self.makeVisible = function(){
+					self.isVisible(true);
+					ViewModels.signupVM.isVisible(false);
+				};
+
+				self.userLogin = function(){
+					console.log("logging in...");
+
+					ref.authWithPassword({
+					  email    : self.userName(),
+					  password : self.userPassword()
+					}, function(error, authData) {
+					  if (error) {
+					    console.log("Login Failed!", error);
+							self.isVisible(true);
+					  } else {
+
+							//fix writing to the data base
+							/*
+							if(ref.child("users").child(authData.uid) == null){
+								console.log();
+							}
+							*/
+
+					    console.log("Authenticated successfully with payload:", authData);
+							self.isVisible(false);
+							alert("Success! create another view-model to continue")
+					  }
+					});
+				};
+
+			}
+		</script>
+
+		<script type="text/javascript">
+			var ViewModels = {
+				signupVM : new SignUpVM(true),
+				loginVM : new LoginVM(false)
+			}
+			ko.applyBindings(ViewModels);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,66 @@
+{
+	"settings": {
+
+	},
+	"configuration":{
+
+	},
+
+
+
+	"users": {
+		"IDXX01": {
+			"user": {
+				"first-name": "John",
+				"last-name": "Doe",
+				"email": "test@mail.com",
+				"password": "password01"
+			},
+			"status": {
+				"active": "false",
+				"queue": {
+					"in-queue": "false",
+					"place-in-queue": "0",
+					"subject": {
+						"saw": "false",
+						"drill": "true"
+					},
+					"seating": "Sketch-rummet",
+					"time": "5min"
+				}
+			},
+			"data": {
+				"exp": "123",
+				"lvl": "2",
+				"licenses": {
+
+				}
+			},
+			"log": {
+				"KAE3627XBBN": {
+					"event-type": "queueing",
+					""
+				}
+			}
+		}
+	}
+}
+
+--- REMOVE BELOW ---
+en användare behöver lagra följande info:
+
+v1:
+data
+	taken-user-ids: ["IDXX01","IDXX02" osv]
+users
+	IDXX01
+		user
+			name								string
+			email								string			används till att unikt identifiera användaren och funkar bra med fb's email login
+			password						string
+			active							boolean			är användaren aktiv
+			in-queue						number			köar användaren just nu, vilken plats har användaren? 0 är ingen köplats
+			help-subject				object			ett objekt med ett gäng booleans, typ 'saw = true' 'drill = false' osv
+
+v2:
+priviliges	string		[teacher, student, tutor, admin] sätt firebase regler för var och en
